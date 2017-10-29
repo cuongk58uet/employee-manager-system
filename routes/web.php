@@ -18,3 +18,8 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('/reset/password', 'UserController@showResetForm')->name('password.reset.first');
 Route::post('/reset/password', 'UserController@reset');
+Route::prefix('/departments')->group(function(){
+    Route::get('', 'DepartmentController@index')->name('departments');
+    Route::get('/create', 'DepartmentController@create')->name('departments.create');
+    Route::post('/create', 'DepartmentController@store');
+});

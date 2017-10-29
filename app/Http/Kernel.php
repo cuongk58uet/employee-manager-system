@@ -58,6 +58,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'firstLogin' => \App\Http\Middleware\CheckFirstLogin::class,
         'passwordReset' => \App\Http\Middleware\ProtectResetPassword::class,
+        'admin' => \App\Http\Middleware\CheckAdminRole::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 }

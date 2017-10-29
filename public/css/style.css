@@ -13,3 +13,9 @@ body {
     margin-left: 2px;
 }
 
+.paginate-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
