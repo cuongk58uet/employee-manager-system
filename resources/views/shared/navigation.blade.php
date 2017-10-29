@@ -6,7 +6,7 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('dashboard') }}">
                     <i class="fa fa-home" aria-hidden="true"></i>
                     <span class="nav-link-text">Dashboard</span>
                 </a>
@@ -27,8 +27,8 @@
                     <span class="nav-link-text">Departments</span>
                 </a>
                 <ul class="sidenav-second-level collapse" id="collapseExamplePages">
-                    <li><a href="#"><i class="fa fa-fw fa-wrench"></i> Management</a></li>
-                    <li><a href="#"><i class="fa fa-plus" aria-hidden="true"></i>  Create</a></li>
+                    <li><a href="{{ route('departments') }}"><i class="fa fa-fw fa-wrench"></i> Management</a></li>
+                    <li><a href="{{ route('departments.create') }}"><i class="fa fa-plus" aria-hidden="true"></i>  Create</a></li>
                 </ul>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
