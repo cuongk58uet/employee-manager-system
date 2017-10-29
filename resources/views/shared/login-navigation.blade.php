@@ -3,16 +3,18 @@
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav ml-auto">
-        @guest
-
-        @else
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">{{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item small" href="{{route('logout')}}">Logout</a>
-                </div>
-            </li>
-        @endguest
-    </ul>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+           @guest
+               <li class="nav-item"></li>
+           @else
+               <li class="nav-item">
+                   <a class="nav-link" href="#">{{Auth::user()->firstname . ' ' . Auth::user()->lastname}}</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-power-off" aria-hidden="true"></i></a>
+               </li>
+           @endguest
+        </ul>
+    </div>
 </nav>

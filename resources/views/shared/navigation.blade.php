@@ -6,7 +6,7 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="#">
                     <i class="fa fa-home" aria-hidden="true"></i>
                     <span class="nav-link-text">Dashboard</span>
                 </a>
@@ -55,13 +55,13 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             @guest
-                <li class="nav-item dropdown"></li>
+                <li class="nav-item"></li>
             @else
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}</a>
-                    <div class="dropdown-menu" aria-labelledby="messagesDropdown">
-                        <a class="dropdown-item small" href="{{route('logout')}}">Logout</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{Auth::user()->firstname . ' ' . Auth::user()->lastname}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-power-off" aria-hidden="true"></i></a>
                 </li>
             @endguest
         </ul>
