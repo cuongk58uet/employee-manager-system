@@ -19,6 +19,7 @@
     <div class="content-wrapper">
         <div class="container-fluid">
            @yield('content')
+           @include('shared.logout-modal')
         </div>
     </div>
 

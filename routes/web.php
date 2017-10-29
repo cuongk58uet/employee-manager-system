@@ -16,3 +16,5 @@ Route::redirect('/', '/login');
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+Route::get('/reset/password', 'UserController@showResetForm')->name('password.reset.first');
+Route::post('/reset/password', 'UserController@reset');
