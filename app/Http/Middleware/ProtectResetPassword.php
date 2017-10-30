@@ -19,7 +19,7 @@ class ProtectResetPassword
         if (Auth::user()->is_reset_password || Auth::user()->first_login) {
             return $next($request);
         } else {
-            return redirect('/dashboard')->with('danger', 'Permisson denied');
+            return back()->with('danger', 'Permisson denied');
         }
 
     }

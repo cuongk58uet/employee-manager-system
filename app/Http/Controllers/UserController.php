@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterAccountSusscess;
 
 class UserController extends Controller
 {
@@ -16,7 +19,136 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('passwordReset');
+        $this->middleware('admin', ['except' => ['showResetForm', 'reset']]);
+        $this->middleware('passwordReset', ['only' => ['showResetForm', 'reset']]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $users = User::orderBy('id', 'desc')->paginate(5);
+        return view('users.index', compact('users'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('users.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'username' => 'required|string|unique:users|max:255',
+            'email' => 'required|string|email|unique:users|max:255'
+        ]);
+
+        $user = new User();
+        $user->username = $request->username;
+        $user->email = $request->email;
+
+        $username = $request->username;
+        $password = $this->generatePassword();
+
+        $user->password = $this->hashPassword($password);
+
+        if ($user->save()) {
+            Mail::to($request->email)->send(new RegisterAccountSusscess($username, $password));
+            return redirect('/users')->with('success', 'User has been created!');
+        }
+        return redirect('/users/create')->with('danger', 'Error occurred. Please try again');
+
+    }
+
+    protected function generatePassword()
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $length = strlen($characters);
+        $password = '';
+        for ($i = 0; $i < 8; $i++) {
+            $password .= $characters[rand(0, $length -1)];
+        }
+
+        return $password;
+    }
+
+    protected function hashPassword($password)
+    {
+        return $password = Hash::make($password);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $user = User::where('id', $id)->firstOrFail();
+        return view('users.show', compact('user'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $user = User::where('id', $id)->firstOrFail();
+        return view('users.edit', compact('user'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+        $user = User::where('id', $request->id)->firstOrFail();
+        $user->name = $request->name;
+        $user->description = $request->description;
+
+        if ($user->save()) {
+            return redirect('/users')->with('success', 'User has been updated');
+        }
+        return redirect()->back()->with('danger', 'Error occurred. Please try again');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request)
+    {
+        $user = User::where('id', $request->id)->firstOrFail();
+
+        if ($user->delete()) {
+            return redirect('/users')->with('success', 'User has been deleted.');
+        }
+
+        return redirect()->back()->with('danger', 'Error occurred. Please try again');
     }
 
     /**
@@ -27,7 +159,7 @@ class UserController extends Controller
     public function showResetForm()
     {
         $current_user = Auth::user();
-        return view('user.reset', compact('current_user', $current_user));
+        return view('users.reset', compact('current_user', $current_user));
     }
 
     public function reset(Request $request)
