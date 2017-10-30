@@ -28,5 +28,6 @@
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="{{ asset('js/bootstrap.bundle.js') }}"></script>
     <script src="{{ asset('js/sb-admin.js') }}"></script>
+    <script src="{{ asset('js/style.js') }}"></script>
 </body>
 </html>

@@ -22,7 +22,7 @@
                 <tbody>
                     @foreach($departments as $department)
                         <tr>
-                            <td>{{ $department->name }}</td>
+                            <td><a href="{{ route('department.show', ['id' => $department->id]) }}">{{ $department->name }}</a></td>
                             <td>{{ date('d F Y', strtotime($department->created_at)) }}</td>
                             <td>{{ date('d F Y', strtotime($department->updated_at)) }}</td>
                         </tr>

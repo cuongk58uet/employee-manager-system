@@ -63,7 +63,8 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        //
+        $department = Department::where('id', $id)->firstOrFail();
+        return view('departments.show', compact('department'));
     }
 
     /**
@@ -74,7 +75,8 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $department = Department::where('id', $id)->firstOrFail();
+        return view('departments.edit', compact('department'));
     }
 
     /**
@@ -84,9 +86,16 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $department = Department::where('id', $request->id)->firstOrFail();
+        $department->name = $request->name;
+        $department->description = $request->description;
+
+        if ($department->save()) {
+            return redirect('/departments')->with('success', 'Department has been updated');
+        }
+        return redirect()->back()->with('danger', 'Error occurred. Please try again');
     }
 
     /**
@@ -95,8 +104,14 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $department = Department::where('id', $request->id)->firstOrFail();
+
+        if ($department->delete()) {
+            return redirect('/departments')->with('success', 'Department has been deleted.');
+        }
+
+        return redirect()->back()->with('danger', 'Error occurred. Please try again');
     }
 }

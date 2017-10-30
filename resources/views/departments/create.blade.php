@@ -10,7 +10,7 @@
                 <div class="card">
                     <div class="card-header bg-dark text-white">Create Department</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('departments.create') }}">
+                        <form method="POST" action="{{ route('department.create') }}">
                             {{ csrf_field() }}
                             <fieldset class="form-group">
                                 <label for="name">Name</label>

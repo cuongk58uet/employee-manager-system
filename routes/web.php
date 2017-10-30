@@ -20,6 +20,10 @@ Route::get('/reset/password', 'UserController@showResetForm')->name('password.re
 Route::post('/reset/password', 'UserController@reset');
 Route::prefix('/departments')->group(function(){
     Route::get('', 'DepartmentController@index')->name('departments');
-    Route::get('/create', 'DepartmentController@create')->name('departments.create');
+    Route::get('/create', 'DepartmentController@create')->name('department.create');
     Route::post('/create', 'DepartmentController@store');
+    Route::get('show/{id}', 'DepartmentController@show')->name('department.show');
+    Route::get('edit/{id}', 'DepartmentController@edit')->name('department.edit');
+    Route::post('/update', 'DepartmentController@update')->name('department.update');
+    Route::post('/delete', 'DepartmentController@destroy')->name('department.delete');
 });
