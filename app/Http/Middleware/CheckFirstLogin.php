@@ -16,9 +16,9 @@ class CheckFirstLogin
      */
     public function handle($request, Closure $next)
     {
-        if(!Auth::user()->first_login) {
-            return $next($request);
+        if(Auth::user()->first_login) {
+            return redirect('/reset/password');
         }
-        return redirect('/reset/password');
+        return $next($request);
     }
 }

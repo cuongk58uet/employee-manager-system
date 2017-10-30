@@ -17,8 +17,8 @@
                     <span class="nav-link-text">Employees</span>
                 </a>
                 <ul class="sidenav-second-level collapse" id="collapseComponents">
-                    <li><a href="#"><i class="fa fa-fw fa-wrench"></i> Management</a></li>
-                    <li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i> Create</a></li>
+                    <li><a href="{{ route('users') }}"><i class="fa fa-fw fa-wrench"></i> Management</a></li>
+                    <li><a href="{{ route('user.create') }}"><i class="fa fa-user-plus" aria-hidden="true"></i> Create</a></li>
                 </ul>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">

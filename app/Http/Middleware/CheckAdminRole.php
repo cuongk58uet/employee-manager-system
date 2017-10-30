@@ -19,6 +19,6 @@ class CheckAdminRole
         if (Auth::user()->is_admin) {
             return $next($request);
         }
-        return redirect('/dashboard')->with('danger', 'Permission denied!');
+        return back()->with('danger', 'Permission denied!');
     }
 }
