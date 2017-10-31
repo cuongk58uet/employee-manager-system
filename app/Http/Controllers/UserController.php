@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use App\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterAccountSusscess;
+use Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -124,9 +126,20 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => Rule::unique('users')->ignore($request->id)
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         $user = User::where('id', $request->id)->firstOrFail();
-        $user->name = $request->name;
-        $user->description = $request->description;
+        $user->email = $request->email;
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->gender = $request->gender;
+        $user->address = $request->address;
 
         if ($user->save()) {
             return redirect('/users')->with('success', 'User has been updated');
@@ -143,12 +156,15 @@ class UserController extends Controller
     public function destroy(Request $request)
     {
         $user = User::where('id', $request->id)->firstOrFail();
+        if ($user->is_admin) {
+            return back()->with('danger', 'Can not delete admin account');
+        }
 
         if ($user->delete()) {
             return redirect('/users')->with('success', 'User has been deleted.');
         }
 
-        return redirect()->back()->with('danger', 'Error occurred. Please try again');
+        return back()->with('danger', 'Error occurred. Please try again');
     }
 
     /**

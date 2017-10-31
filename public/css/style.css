@@ -22,3 +22,7 @@ body {
 textarea {
     width: 100%;
 }
+
+table > thead > tr > th {
+    text-align: center;
+}

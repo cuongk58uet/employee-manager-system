@@ -6,47 +6,58 @@
         <div class="row">
             @include('users/breadcrumb')
             @include('shared/alert')
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header bg-dark text-white">User Detail</div>
                     <div class="card-body">
-                        <fieldset class="form-group">
-                            <b>User Name</b>
-                            <input type="text" class="form-control" id="username" value="{{ $user->username }}" readonly>
-                        </fieldset>
+                        <div class="form-row">
+                            <fieldset class="form-group col-md-6">
+                                <b>User Name</b>
+                                <input type="text" class="form-control" id="username" value="{{ $user->username }}" readonly>
+                            </fieldset>
+
+                            <fieldset class="form-group col-md-6">
+                                <b>Email</b>
+                                <input type="text" class="form-control" id="email" value="{{ $user->email }}" readonly>
+                            </fieldset>
+                        </div>
                         <hr>
-                        <fieldset class="form-group">
-                            <b>Email</b>
-                            <input type="text" class="form-control" id="email" value="{{ $user->email }}" readonly>
-                        </fieldset>
+                        <div class="form-row">
+                            <fieldset class="form-group col-md-6">
+                                <b>Full Name</b>
+                                <input type="text" class="form-control" id="fullname" value="{{ $user->firstname . ' ' . $user->lastname }}" readonly>
+                            </fieldset>
+
+                            <fieldset class="form-group col-md-6">
+                                <b>Gender</b>
+                                <input type="text" class="form-control" id="gender" value="{{ $user->gender }}" readonly>
+                            </fieldset>
+                        </div>
                         <hr>
-                        <fieldset class="form-group">
-                            <b>Full Name</b>
-                            <input type="text" class="form-control" id="fullname" value="{{ $user->firstname . ' ' . $user->lastname }}" readonly>
-                        </fieldset>
+                        <div class="form-row">
+                            <fieldset class="form-group col-md-6">
+                                <b>Birthday</b>
+                                <p>{{ date('d F Y', strtotime($user->birthday)) }}</p>
+                            </fieldset>
+
+                            <fieldset class="form-group col-md-6">
+                                <b>Address</b>
+                                <p>{{ $user->address }}</p>
+                            </fieldset>
+                        </div>
                         <hr>
-                        <fieldset class="form-group">
-                            <b>Gender</b>
-                            <input type="text" class="form-control" id="gender" value="{{ $user->gender }}" readonly>
-                        </fieldset>
-                        <hr>
-                        <fieldset class="form-group">
-                            <b>Birthday</b>
-                            <p>{{ date('d F Y', strtotime($user->birthday)) }}</p>
-                        </fieldset>
-                        <hr>
-                        <fieldset class="form-group">
-                            <b>Address</b>
-                            <p>{{ $user->address }}</p>
-                        </fieldset>
-                        <a class="btn btn-secondary" href="{{ route('users') }}">Back</a>
-                        <a class="btn btn-primary" href="{{route('user.edit', ['id' => $user->id])}}">Edit</a>
-                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteUser">Delete</button>
+                        <div class="form-row">
+                            <fieldset class="form-group col-md-6"></fieldset>
+                            <fieldset class="form-group col-md-6">
+                                <a class="btn btn-secondary" href="{{ route('users') }}">Back</a>
+                                <a class="btn btn-primary" href="{{route('user.edit', ['id' => $user->id])}}">Edit</a>
+                                <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteUser">Delete</a>
+                            </fieldset>
+                        </div>
                     </div>
                 </div>
             </div>
-            {{-- Modal delete confirm --}}
-            @include('users.delete_modal')
         </div>
     </div>
+    @include('users.delete_modal')
 @endsection
