@@ -58,7 +58,7 @@
                 <li class="nav-item"></li>
             @else
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{Auth::user()->firstname . ' ' . Auth::user()->lastname}}</a>
+                    <a class="nav-link" href="{{ route('user.show', ['id' => Auth::user()->id]) }}">{{Auth::user()->firstname . ' ' . Auth::user()->lastname}}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-power-off" aria-hidden="true"></i></a>

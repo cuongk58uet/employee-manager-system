@@ -24,7 +24,7 @@
                             <fieldset class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" id="email" placeholder="Email" required>
-                                @if ($errors->has('username'))
+                                @if ($errors->has('email'))
                                     <div class="invalid-feedback">
                                         {{ $errors->first('email') }}
                                     </div>
