@@ -47,6 +47,26 @@
                         </div>
                         <hr>
                         <div class="form-row">
+                            <fieldset class="form-group col-md-6">
+                                <b>Member of Department</b>
+                                @if($memberOf)
+                                    <input type="text" class="form-control" id="manager" value="{{ $memberOf }}" readonly>
+                                @else
+                                    <input type="text" class="form-control" id="manager" value="None" readonly>
+                                @endif
+                            </fieldset>
+
+                            <fieldset class="form-group col-md-6">
+                                <b>Manager of Department</b>
+                                @if($managerOf)
+                                    <input type="text" class="form-control" id="manager" value="{{ $managerOf }}" readonly>
+                                @else
+                                    <input type="text" class="form-control" id="manager" value="None" readonly>
+                                @endif
+                            </fieldset>
+                        </div>
+                        <hr>
+                        <div class="form-row">
                             <fieldset class="form-group col-md-6"></fieldset>
                             <fieldset class="form-group col-md-6">
                                 <a class="btn btn-secondary" href="{{ route('users') }}">Back</a>

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterAccountSusscess;
 use Validator;
 use Illuminate\Validation\Rule;
+use App\Department;
 
 class UserController extends Controller
 {
@@ -101,8 +102,18 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::where('id', $id)->firstOrFail();
-        return view('users.show', compact('user'));
+        $user = User::findOrFail($id);
+        $memberOf = '';
+        $managerOf = '';
+
+        foreach ($user->isMemberOfDepartment as $department) {
+            $memberOf = $department->name;
+        }
+        foreach ($user->isManagerOfDepartment as $department) {
+            $managerOf = $department->name;
+        }
+
+        return view('users.show', compact('user', 'memberOf', 'managerOf'));
     }
 
     /**
@@ -113,8 +124,23 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::where('id', $id)->firstOrFail();
-        return view('users.edit', compact('user'));
+        $user = User::findOrFail($id);
+
+        if ($user->isMemberOfDepartment->first()) {
+            $departmentId = $user->isMemberOfDepartment->first()->id;
+        } else {
+            $departmentId = '';
+        }
+
+        if ($user->isManagerOfDepartment->first()) {
+            $managerDepartmentId = $user->isManagerOfDepartment->first()->id;
+        } else {
+            $managerDepartmentId = '';
+        }
+
+        $departments = Department::all();
+
+        return view('users.edit', compact('user', 'departments', 'departmentId', 'managerDepartmentId'));
     }
 
     /**
@@ -127,14 +153,24 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => Rule::unique('users')->ignore($request->id)
+            'email' => Rule::unique('users')->ignore($request->id),
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'gender' => 'required|string',
+            'member' => 'required|integer',
+            'manager' =>'required|integer',
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $user = User::where('id', $request->id)->firstOrFail();
+        $user = User::findOrFail($request->id);
+
+        $this->updateMemberField($request, $user);
+        $this->updateManagerField($request, $user);
+
         $user->email = $request->email;
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
@@ -144,7 +180,68 @@ class UserController extends Controller
         if ($user->save()) {
             return redirect('/users')->with('success', 'User has been updated');
         }
-        return redirect()->back()->with('danger', 'Error occurred. Please try again');
+        return back()->with('danger', 'Error occurred. Please try again');
+    }
+
+    public function updateMemberField(Request $request,User $user)
+    {
+        // Validate department->id on select value, if department existing => update row on intermediate table, otherwise exit function
+        $department = Department::find($request->member);
+
+        if ($department) {
+            if ($user->isMemberOfDepartment->first()) {
+                $user->isMemberOfDepartment()->detach();
+                $user->isMemberOfDepartment()->attach($request->member);
+            } else {
+                $user->isMemberOfDepartment()->attach($request->member);
+            }
+        } else {
+            return 'Done';
+        }
+    }
+
+    public function updateManagerField(Request $request, User $user)
+    {
+        // Validate department->id on select value, if department existing => update row on intermediate table, otherwise exit function
+        $department = Department::find($request->manager);
+
+        // Case 0: Input value wrong
+        if (is_null($department) && $request->manager != 0) {
+            return 'Done';
+        }
+        // Case 1: Old managerField == None & new managerField == None
+        if (is_null($user->isManagerOfDepartment->first()) && $request->manager == 0) {
+            return 'Done';
+        }
+        // Case 2: User isn't a manager
+        if(is_null($user->isManagerOfDepartment->first())) {
+            if (is_null($department->getManager->first())) {
+                $department->users()->attach($user->id, ['is_manager'=>true]);
+                return 'Done';
+            } else {
+                $department->getManager()->detach();
+                $department->users()->attach($user->id, ['is_manager'=>true]);
+                return 'Done';
+            }
+        }
+        // Case 3: User is a manager
+        if (!is_null($user->isManagerOfDepartment->first())) {
+            // Validated id of department
+            if ($request->manager == 0) {
+                $user->isManagerOfDepartment()->detach();
+            } elseif ($user->isManagerOfDepartment->first()->id!=$request->manager) {
+                if (is_null($department->getManager->first())) {
+                    $user->isManagerOfDepartment()->detach();
+                    $department->users()->attach($user->id, ['is_manager'=>true]);
+                } else {
+                    $department->getManager()->detach();
+                    $user->isManagerOfDepartment()->detach();
+                    $department->users()->attach($user->id, ['is_manager'=>true]);
+                }
+            } else {
+                return 'Done';
+            }
+        }
     }
 
     /**
@@ -180,6 +277,9 @@ class UserController extends Controller
 
     public function reset(Request $request)
     {
+        $validatedData = $request->validate([
+            'password' => 'required|string|confirmed|min:6|max:255',
+        ]);
         $current_user = Auth::user();
         $current_user->password = Hash::make($request->password);
         $current_user->first_login = false;
