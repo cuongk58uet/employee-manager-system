@@ -18,7 +18,7 @@
                                 </fieldset>
                                 <fieldset class="form-group col-md-12">
                                     <b>Email</b>
-                                    <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="email" value="{{ $user->email }}">
+                                    <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="email" value="{{ $user->email }}" required>
                                     @if ($errors->has('email'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('email') }}
@@ -30,27 +30,86 @@
                             <div class="form-row">
                                 <fieldset class="form-group col-md-6">
                                     <b>First Name</b>
-                                    <input type="text" name="firstname" class="form-control" id="firstname" value="{{ $user->firstname }}" required>
+                                    <input type="text" name="firstname" class="form-control{{ $errors->has('firstname') ? ' is-invalid' : '' }}" id="firstname" value="{{ $user->firstname }}" required>
+                                    @if ($errors->has('firstname'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('firstname') }}
+                                        </div>
+                                    @endif
                                 </fieldset>
                                 <fieldset class="form-group col-md-6">
                                     <b>Last Name</b>
-                                    <input type="text" name="lastname" class="form-control" id="lastname" value="{{ $user->lastname }}" required>
+                                    <input type="text" name="lastname" class="form-control{{ $errors->has('lastname') ? ' is-invalid' : '' }}" id="lastname" value="{{ $user->lastname }}" required>
+                                    @if ($errors->has('lastname'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('lastname') }}
+                                        </div>
+                                    @endif
                                 </fieldset>
                             </div>
 
                             <hr>
-                            <fieldset class="form-group">
-                                <b>Gender</b>
-                                <select class="form-control" name="gender" id="gender">
-                                      <option value="Man">Man</option>
-                                      <option value="Woman">Woman</option>
+                            <div class="form-row">
+                                <fieldset class="form-group col-md-9">
+                                    <b>Address</b>
+                                    <input type="text" name="address" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" id="address" value="{{ $user->address }}" required>
+                                    @if ($errors->has('address'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('address') }}
+                                        </div>
+                                    @endif
+                                </fieldset>
+                                <fieldset class="form-group col-md-3">
+                                    <b>Gender</b>
+                                    <select class="form-control{{ $errors->has('gender') ? ' is-invalid' : '' }}" name="gender" id="gender" required>
+                                          <option value="Man">Man</option>
+                                          <option value="Woman">Woman</option>
                                     </select>
-                            </fieldset>
+                                    @if ($errors->has('gender'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('gender') }}
+                                        </div>
+                                    @endif
+                                </fieldset>
+                            </div>
                             <hr>
-                            <fieldset class="form-group">
-                                <b>Address</b>
-                                <input type="text" name="address" class="form-control" id="address" value="{{ $user->address }}">
-                            </fieldset>
+                            <div class="form-row">
+                                <fieldset class="form-group col-md-6">
+                                    <b>Member of Department:</b>
+                                    <select class="form-control{{ $errors->has('member') ? ' is-invalid' : '' }}" name="member" id="member" required>
+                                        @foreach($departments as $department)
+                                            @if($departmentId && $department->id == $departmentId)
+                                                <option selected value="{{ $department->id }}">{{ $department->name }}</option>
+                                            @else
+                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                            @endif
+                                        @endforeach
+                                        @if ($errors->has('member'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('member') }}
+                                            </div>
+                                        @endif
+                                    </select>
+                                </fieldset>
+                                <fieldset class="form-group col-md-6">
+                                    <b>Manager of Department:</b>
+                                    <select class="form-control{{ $errors->has('manager') ? ' is-invalid' : '' }}" name="manager" id="manager" required>
+                                        <option value="0">None</option>
+                                        @foreach($departments as $department)
+                                            @if($managerDepartmentId && $department->id == $managerDepartmentId)
+                                                <option selected value="{{ $department->id }}">{{ $department->name }}</option>
+                                            @else
+                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                            @endif
+                                        @endforeach
+                                        @if ($errors->has('manager'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('manager') }}
+                                            </div>
+                                        @endif
+                                    </select>
+                                </fieldset>
+                            </div>
                             <a class="btn btn-secondary" href="{{ route('users') }}">Cancel</a>
                             <button type="submit" class="btn btn-success" id="editUser">Save change</button>
                         </form>
