@@ -26,3 +26,8 @@ textarea {
 table > thead > tr > th {
     text-align: center;
 }
+
+.create {
+    margin-bottom: 10px;
+    margin-left: 80%;
+}

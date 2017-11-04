@@ -71,7 +71,7 @@
                             <fieldset class="form-group col-md-6">
                                 <a class="btn btn-secondary" href="{{ route('users') }}">Back</a>
                                 <a class="btn btn-primary" href="{{route('user.edit', ['id' => $user->id])}}">Edit</a>
-                                <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteUser">Delete</a>
+                                <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteUser" id="deleteUser">Delete</a>
                             </fieldset>
                         </div>
                     </div>
