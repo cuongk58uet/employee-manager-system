@@ -15,7 +15,7 @@ class User extends Authenticatable
     */
     public function isManagerOfDepartment()
     {
-        return $this->belongsToMany('App\Department')->withPivot('is_manager')->wherePivot('is_manager', true);
+        return $this->belongsToMany('App\Department')->withPivot('is_manager')->wherePivot('is_manager', true)->withTimestamps();
     }
 
     /** Determine department which this user is a member
@@ -24,7 +24,7 @@ class User extends Authenticatable
     */
     public function isMemberOfDepartment()
     {
-        return $this->belongsToMany('App\Department')->withPivot('is_manager')->wherePivot('is_manager', false);
+        return $this->belongsToMany('App\Department')->withPivot('is_manager')->wherePivot('is_manager', false)->withTimestamps();
     }
 
     /** Determine all departments
@@ -33,7 +33,7 @@ class User extends Authenticatable
     */
     public function departments()
     {
-        return $this->belongsToMany('App\Department')->withPivot('is_manager');
+        return $this->belongsToMany('App\Department')->withPivot('is_manager')->withTimestamps();
     }
 
 

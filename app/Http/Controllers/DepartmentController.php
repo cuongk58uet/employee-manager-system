@@ -25,7 +25,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::orderBy('id', 'desc')->paginate(5);
+        $departments = Department::orderBy('id', 'asc')->paginate(5);
         return view('departments.index', compact('departments'));
     }
 
@@ -64,7 +64,12 @@ class DepartmentController extends Controller
     public function show($id)
     {
         $department = Department::where('id', $id)->firstOrFail();
-        return view('departments.show', compact('department'));
+        $manager = '';
+        $manager = $department->getManager()->first();
+        $members = '';
+        $members = $department->getMembers;
+
+        return view('departments.show', compact('department', 'manager', 'members'));
     }
 
     /**

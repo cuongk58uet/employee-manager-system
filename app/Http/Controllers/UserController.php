@@ -188,6 +188,22 @@ class UserController extends Controller
         // Validate department->id on select value, if department existing => update row on intermediate table, otherwise exit function
         $department = Department::find($request->member);
 
+        // Case 0: Input wrong
+        if (is_null($department) && $request->member != 0) {
+            return 'Done';
+        }
+
+        // Case 1: Input: None and Output: None
+        if (is_null($user->isMemberOfDepartment()->first()) && $request->member == 0) {
+            return 'Done';
+        }
+
+        if ($user->isMemberOfDepartment->first() && $request->member == 0) {
+            $user->isMemberOfDepartment()->detach();
+            return 'Done';
+        }
+
+        // Case 2: User is member of a department
         if ($department) {
             if ($user->isMemberOfDepartment->first()) {
                 $user->isMemberOfDepartment()->detach();
@@ -195,8 +211,6 @@ class UserController extends Controller
             } else {
                 $user->isMemberOfDepartment()->attach($request->member);
             }
-        } else {
-            return 'Done';
         }
     }
 

@@ -15,7 +15,7 @@ class Department extends Model
     */
     public function getMembers()
     {
-        return $this->belongsToMany('App\User')->withPivot('is_manager')->wherePivot('is_manager', false);
+        return $this->belongsToMany('App\User')->withPivot('is_manager')->wherePivot('is_manager', false)->withTimestamps();
     }
 
     /** Get manager member of department
@@ -24,7 +24,7 @@ class Department extends Model
     */
     public function getManager()
     {
-        return $this->belongsToMany('App\User')->withPivot('is_manager')->wherePivot('is_manager', true);
+        return $this->belongsToMany('App\User')->withPivot('is_manager')->wherePivot('is_manager', true)->withTimestamps();
     }
 
     /** Get all members of department
@@ -33,7 +33,7 @@ class Department extends Model
     */
     public function users()
     {
-        return $this->belongsToMany('App\User')->withPivot('is_manager');
+        return $this->belongsToMany('App\User')->withPivot('is_manager')->withTimestamps();
     }
 
      /**
