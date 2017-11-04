@@ -68,13 +68,13 @@ class UserController extends Controller
         $password = $this->generatePassword();
 
         $user->password = $this->hashPassword($password);
-
-        if ($user->save()) {
+        try {
             Mail::to($request->email)->send(new RegisterAccountSusscess($username, $password));
-            return redirect('/users')->with('success', 'User has been created!');
+            $user->save();
+        } catch (\Swift_TransportException $e) {
+            return redirect('/users/create')->with('danger', 'Error occurred. Please try again');
         }
-        return redirect('/users/create')->with('danger', 'Error occurred. Please try again');
-
+        return redirect('/users')->with('success', 'User has been created successfully');
     }
 
     protected function generatePassword()
@@ -152,12 +152,14 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
+        // return $request->all();
         $validator = Validator::make($request->all(), [
             'email' => Rule::unique('users')->ignore($request->id),
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'gender' => 'required|string',
+            'birthday' => 'required|date',
             'member' => 'required|integer',
             'manager' =>'required|integer',
         ]);
@@ -176,6 +178,7 @@ class UserController extends Controller
         $user->lastname = $request->lastname;
         $user->gender = $request->gender;
         $user->address = $request->address;
+        $user->birthday = $request->birthday;
 
         if ($user->save()) {
             return redirect('/users')->with('success', 'User has been updated');
