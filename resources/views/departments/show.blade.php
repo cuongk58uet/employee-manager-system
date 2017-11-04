@@ -30,6 +30,19 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6">
+                <h5><b>Manager of department:</b></h5>
+                @if ($manager)
+                    <b><a href="{{route('user.show', ['id' => $manager->id])}}">{{ $manager->firstname . ' ' . $manager->lastname }}</a></b>
+                @endif
+
+                <h6><b>Members:</b></h6>
+                <ol>
+                    @foreach ($members as $member)
+                            <li><a href="{{ route('user.show', ['id' => $member->id]) }}">{{ $member->firstname . ' ' . $member->lastname }}</a></li>
+                    @endforeach
+                </ol>
+            </div>
             {{-- Modal delete confirm --}}
             <div class="modal fade" id="deleteDepartment" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document">

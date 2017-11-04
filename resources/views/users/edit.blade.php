@@ -74,9 +74,17 @@
                             </div>
                             <hr>
                             <div class="form-row">
+                                <fieldset>
+                                    <b>Date of birth: </b>
+                                    <input type="date" class="form-control" name="birthday" value="{{$user->birthday}}">
+                                </fieldset>
+                            </div>
+                            <hr>
+                            <div class="form-row">
                                 <fieldset class="form-group col-md-6">
                                     <b>Member of Department:</b>
                                     <select class="form-control{{ $errors->has('member') ? ' is-invalid' : '' }}" name="member" id="member" required>
+                                        <option value="0">None</option>
                                         @foreach($departments as $department)
                                             @if($departmentId && $department->id == $departmentId)
                                                 <option selected value="{{ $department->id }}">{{ $department->name }}</option>

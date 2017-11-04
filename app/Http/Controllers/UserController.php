@@ -68,13 +68,13 @@ class UserController extends Controller
         $password = $this->generatePassword();
 
         $user->password = $this->hashPassword($password);
-
-        if ($user->save()) {
+        try {
             Mail::to($request->email)->send(new RegisterAccountSusscess($username, $password));
-            return redirect('/users')->with('success', 'User has been created!');
+            $user->save();
+        } catch (\Swift_TransportException $e) {
+            return redirect('/users/create')->with('danger', 'Error occurred. Please try again');
         }
-        return redirect('/users/create')->with('danger', 'Error occurred. Please try again');
-
+        return redirect('/users')->with('success', 'User has been created successfully');
     }
 
     protected function generatePassword()
@@ -152,12 +152,14 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
+        // return $request->all();
         $validator = Validator::make($request->all(), [
             'email' => Rule::unique('users')->ignore($request->id),
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'gender' => 'required|string',
+            'birthday' => 'required|date',
             'member' => 'required|integer',
             'manager' =>'required|integer',
         ]);
@@ -176,6 +178,7 @@ class UserController extends Controller
         $user->lastname = $request->lastname;
         $user->gender = $request->gender;
         $user->address = $request->address;
+        $user->birthday = $request->birthday;
 
         if ($user->save()) {
             return redirect('/users')->with('success', 'User has been updated');
@@ -188,6 +191,22 @@ class UserController extends Controller
         // Validate department->id on select value, if department existing => update row on intermediate table, otherwise exit function
         $department = Department::find($request->member);
 
+        // Case 0: Input wrong
+        if (is_null($department) && $request->member != 0) {
+            return 'Done';
+        }
+
+        // Case 1: Input: None and Output: None
+        if (is_null($user->isMemberOfDepartment()->first()) && $request->member == 0) {
+            return 'Done';
+        }
+
+        if ($user->isMemberOfDepartment->first() && $request->member == 0) {
+            $user->isMemberOfDepartment()->detach();
+            return 'Done';
+        }
+
+        // Case 2: User is member of a department
         if ($department) {
             if ($user->isMemberOfDepartment->first()) {
                 $user->isMemberOfDepartment()->detach();
@@ -195,8 +214,6 @@ class UserController extends Controller
             } else {
                 $user->isMemberOfDepartment()->attach($request->member);
             }
-        } else {
-            return 'Done';
         }
     }
 
