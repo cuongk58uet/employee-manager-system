@@ -18,7 +18,8 @@
                 </a>
                 <ul class="sidenav-second-level collapse" id="collapseComponents">
                     <li><a href="{{ route('users') }}"><i class="fa fa-fw fa-wrench"></i> Management</a></li>
-                    <li><a href="{{ route('user.create') }}"><i class="fa fa-user-plus" aria-hidden="true"></i> Create</a></li>
+                    <li><a href="{{ route('user.create') }}"><i class="fa fa-user-plus" aria-hidden="true"></i> Create Account</a></li>
+                    <li><a href="{{ route('user.reset') }}"><i class="fa fa-refresh" aria-hidden="true"></i> Reset Password</a></li>
                 </ul>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">

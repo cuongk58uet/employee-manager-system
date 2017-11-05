@@ -13,7 +13,7 @@
                        <div class="form-group">
                            <label for="username">User Name</label>
                            <div>
-                               <input id="username" type="text" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" required autofocus placeholder="User Name">
+                               <input id="username" type="text" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" required autofocus>
 
                                @if ($errors->has('username'))
                                    <div class="invalid-feedback">
@@ -27,7 +27,7 @@
                            <label for="password">Password</label>
 
                            <div>
-                               <input id="password" type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required placeholder="Password">
+                               <input id="password" type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
 
                                @if ($errors->has('password'))
                                    <div class="invalid-feedback">

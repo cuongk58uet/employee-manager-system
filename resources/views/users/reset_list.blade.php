@@ -6,7 +6,12 @@
         <div class="row">
             @include('users/breadcrumb')
             @include('shared/alert')
-            <a href="{{ route('user.create') }}" class="btn btn-success create"><i class="fa fa-user-plus" aria-hidden="true"></i> Create User</a>
+            <form action="{{route('user.reset')}}" method="POST" id="formReset">
+                {{ csrf_field() }}
+                <input type="hidden" name="list" id="listId">
+                <button type="submit" id="resetButton" class="btn btn-success reset"><i class="fa fa-refresh" aria-hidden="true"></i> Reset Password</button>
+            </form>
+
             <table class="table table-hover table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -21,16 +26,18 @@
                 <tbody>
                     @foreach($users as $user)
                         <tr>
-                            <td></td>
+                            <td><input type="checkbox" name="userId" value="{{$user->id}}"></td>
                             <td><a href="{{ route('user.show', ['id' => $user->id]) }}">{{ $user->username }}</a></td>
                             <td>{{ $user->email }}</td>
                             <td class="text-center">{{ date('h:i a | d/m/Y', strtotime($user->created_at)) }}</td>
                             <td class="text-center">{{date('h:i a | d/m/Y', strtotime($user->updated_at)) }}</td>
                             <td>
                                 <div class="action">
-                                    <a href="{{route('user.edit', ['id' => $user->id])}}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
-                                    <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" id="deleteUser"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
-                                    <input type="hidden" id="userId" value="{{$user->id}}">
+                                   <form action="{{route('user.reset')}}" method="POST" id="formReset">
+                                       {{ csrf_field() }}
+                                       <input type="hidden" name="list" value="{{$user->id}}">
+                                       <button type="submit" class="btn btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i> Reset Password</button>
+                                   </form>
                                 </div>
                             </td>
                         </tr>

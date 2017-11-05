@@ -8,5 +8,18 @@ $(document).ready(function() {
         var departmentId = $(this).find('#departmentId').val();
         $('#id').val(departmentId);
         console.log(departmentId);
-    })
+    });
+
+    $(document).on('click', '#resetButton', function(event) {
+        // event.preventDefault();
+        var arr = [];
+        $('input[name="userId"]:checked').each(function(){
+            arr.push(this.value);
+        });
+
+        // arr = JSON.stringify(arr);
+        $('#listId').val(arr);
+
+        console.log(arr);
+    });
 });
