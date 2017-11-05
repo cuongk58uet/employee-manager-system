@@ -31,3 +31,7 @@ table > thead > tr > th {
     margin-bottom: 10px;
     margin-left: 80%;
 }
+
+.reset {
+    margin-bottom: 10px;
+}

@@ -11,6 +11,7 @@ use App\Mail\RegisterAccountSusscess;
 use Validator;
 use Illuminate\Validation\Rule;
 use App\Department;
+use App\Mail\ResetPasswordSuccess;
 
 class UserController extends Controller
 {
@@ -300,10 +301,42 @@ class UserController extends Controller
         $current_user = Auth::user();
         $current_user->password = Hash::make($request->password);
         $current_user->first_login = false;
+        if ($current_user->is_reset_password) {
+            $current_user->is_reset_password = false;
+        }
 
         if($current_user->save()) {
             return redirect('/dashboard')->with('success', 'Your password has been updated');
         }
-        return redirect('/reset/password')->with('danger', 'Error occurred. Please try again');
+        return redirect('/users/reset/password')->with('danger', 'Error occurred. Please try again');
+    }
+
+    public function showResetList()
+    {
+        $users = User::where('is_admin', '!=', true)->paginate(10);
+        return view('users.reset_list', compact('users'));
+    }
+
+    public function resetPasswordOfListUser(Request $request)
+    {
+        $list = explode(',', $request->get('list'));
+        $users = User::find($list);
+        if(is_null($users->first())) {
+            return back();
+        }
+
+        foreach ($users as $user) {
+            $password = $this->generatePassword();
+            $user->password = $this->hashPassword($password);
+            $user->is_reset_password = true;
+
+            try {
+                Mail::to($user->email)->send(new ResetPasswordSuccess($user->username, $password));
+                $user->save();
+            } catch (\Swift_TransportException $e) {
+                return back()->with('danger', 'Error occurred. Please try again');
+            }
+        }
+        return back()->with('success', 'Password has been reset');
     }
 }

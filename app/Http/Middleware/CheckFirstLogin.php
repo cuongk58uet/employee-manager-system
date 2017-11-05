@@ -17,7 +17,7 @@ class CheckFirstLogin
     public function handle($request, Closure $next)
     {
         if(Auth::user()->first_login || Auth::user()->is_reset_password) {
-            return redirect('/reset/password')->with('warning', 'Please change your password first');
+            return redirect('/users/reset/password')->with('warning', 'Please change your password first');
         }
         return $next($request);
     }

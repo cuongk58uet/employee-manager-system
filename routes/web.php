@@ -16,8 +16,7 @@ Route::redirect('/', '/login');
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-Route::get('/reset/password', 'UserController@showResetForm')->name('password.reset.first');
-Route::post('/reset/password', 'UserController@reset');
+
 Route::prefix('/departments')->group(function(){
     Route::get('/', 'DepartmentController@index')->name('departments');
     Route::get('/create', 'DepartmentController@create')->name('department.create');
@@ -36,7 +35,11 @@ Route::prefix('users')->group(function(){
     Route::get('/edit/{id}', 'UserController@edit')->name('user.edit');
     Route::post('/update', 'UserController@update')->name('user.update');
     Route::post('/delete', 'UserController@destroy')->name('user.delete');
+    Route::get('/reset/password', 'UserController@showResetForm')->name('password.reset.first');
+    Route::post('/reset/password', 'UserController@reset');
+    Route::get('/reset', 'UserController@showResetList')->name('user.reset');
+    Route::post('/reset', 'UserController@resetPasswordOfListUser');
 });
 Route::get('/mails', function() {
-    return new App\Mail\RegisterAccountSusscess('cuongnm4215', 'manhcuong');
+    return new App\Mail\ResetPasswordSuccess('cuongnm4215', 'manhcuong');
 });

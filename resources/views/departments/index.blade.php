@@ -31,8 +31,8 @@
                             <td class="text-center">{{ date('H:i a | d/m/Y', strtotime($department->updated_at)) }}</td>
                             <td>
                                 <div class="departmentAction">
-                                    <a href="{{route('department.edit', ['id' => $department->id])}}" class="btn btn-primary">Edit</a>
-                                    <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal" id="deleteDepartment">Delete</a>
+                                    <a href="{{route('department.edit', ['id' => $department->id])}}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+                                    <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal" id="deleteDepartment"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
                                     <input type="hidden" id="departmentId" value="{{$department->id}}">
                                 </div>
                             </td>
