@@ -4,7 +4,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            @include('users/breadcrumb')
+            @include('admins/breadcrumb')
             @include('shared/alert')
             <a href="{{ route('user.create') }}" class="btn btn-success create"><i class="fa fa-user-plus" aria-hidden="true"></i> Create User</a>
             <table class="table table-hover table-bordered">
@@ -39,6 +39,6 @@
             </table>
             {{ $users->links('vendor.pagination.bootstrap-4') }}
         </div>
-        @include('users.delete_modal')
+        @include('admins.delete_modal')
     </div>
 @endsection

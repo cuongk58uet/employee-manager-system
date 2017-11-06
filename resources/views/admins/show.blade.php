@@ -4,7 +4,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            @include('users/breadcrumb')
+            @include('admins/breadcrumb')
             @include('shared/alert')
             <div class="col-md-8">
                 <div class="card">
@@ -79,5 +79,5 @@
             </div>
         </div>
     </div>
-    @include('users.delete_modal')
+    @include('admins.delete_modal')
 @endsection

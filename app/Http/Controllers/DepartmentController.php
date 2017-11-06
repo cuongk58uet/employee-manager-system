@@ -111,8 +111,11 @@ class DepartmentController extends Controller
      */
     public function destroy(Request $request)
     {
-        $department = Department::where('id', $request->id)->firstOrFail();
+        $department = Department::findOrFail($request->id);
 
+        if ($department->users->first()) {
+            $department->users()->detach();
+        }
         if ($department->delete()) {
             return redirect('/departments')->with('success', 'Department has been deleted.');
         }
