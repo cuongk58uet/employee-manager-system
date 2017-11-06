@@ -4,7 +4,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            @include('users/breadcrumb')
+            @include('admins/breadcrumb')
             @include('shared/alert')
             <form action="{{route('user.reset')}}" method="POST" id="formReset">
                 {{ csrf_field() }}
@@ -46,6 +46,6 @@
             </table>
             {{ $users->links('vendor.pagination.bootstrap-4') }}
         </div>
-        @include('users.delete_modal')
+        @include('admins.delete_modal')
     </div>
 @endsection

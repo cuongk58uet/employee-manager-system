@@ -28,17 +28,17 @@ Route::prefix('/departments')->group(function(){
 });
 
 Route::prefix('users')->group(function(){
-    Route::get('/', 'UserController@index')->name('users');
-    Route::get('/create', 'UserController@create')->name('user.create');
-    Route::post('/create', 'UserController@store');
-    Route::get('/show/{id}', 'UserController@show')->name('user.show');
-    Route::get('/edit/{id}', 'UserController@edit')->name('user.edit');
-    Route::post('/update', 'UserController@update')->name('user.update');
-    Route::post('/delete', 'UserController@destroy')->name('user.delete');
-    Route::get('/reset/password', 'UserController@showResetForm')->name('password.reset.first');
-    Route::post('/reset/password', 'UserController@reset');
-    Route::get('/reset', 'UserController@showResetList')->name('user.reset');
-    Route::post('/reset', 'UserController@resetPasswordOfListUser');
+    Route::get('/', 'AdminController@index')->name('users');
+    Route::get('/create', 'AdminController@create')->name('user.create');
+    Route::post('/create', 'AdminController@store');
+    Route::get('/show/{id}', 'AdminController@show')->name('user.show');
+    Route::get('/edit/{id}', 'AdminController@edit')->name('user.edit');
+    Route::post('/update', 'AdminController@update')->name('user.update');
+    Route::post('/delete', 'AdminController@destroy')->name('user.delete');
+    Route::get('/reset/password', 'AdminController@showResetForm')->name('password.reset.first');
+    Route::post('/reset/password', 'AdminController@reset');
+    Route::get('/reset', 'AdminController@showResetList')->name('user.reset');
+    Route::post('/reset', 'AdminController@resetPasswordOfListUser');
 });
 Route::get('/mails', function() {
     return new App\Mail\ResetPasswordSuccess('cuongnm4215', 'manhcuong');
