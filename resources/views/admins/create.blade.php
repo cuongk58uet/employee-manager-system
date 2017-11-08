@@ -10,7 +10,7 @@
                 <div class="card">
                     <div class="card-header bg-dark text-white">Create User</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('user.create') }}">
+                        <form method="POST" action="{{ route('admin.create') }}">
                             {{ csrf_field() }}
                             <fieldset class="form-group">
                                 <label for="username">User Name</label>

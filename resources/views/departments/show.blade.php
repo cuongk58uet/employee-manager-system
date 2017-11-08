@@ -33,13 +33,13 @@
             <div class="col-md-6">
                 <h5><b>Manager of department:</b></h5>
                 @if ($manager)
-                    <b><a href="{{route('user.show', ['id' => $manager->id])}}">{{ $manager->firstname . ' ' . $manager->lastname }}</a></b>
+                    <b><a href="{{route('admin.show', ['id' => $manager->id])}}">{{ $manager->firstname . ' ' . $manager->lastname }}</a></b>
                 @endif
 
                 <h6><b>Members:</b></h6>
                 <ol>
                     @foreach ($members as $member)
-                            <li><a href="{{ route('user.show', ['id' => $member->id]) }}">{{ $member->firstname . ' ' . $member->lastname }}</a></li>
+                            <li><a href="{{ route('admin.show', ['id' => $member->id]) }}">{{ $member->firstname . ' ' . $member->lastname }}</a></li>
                     @endforeach
                 </ol>
             </div>

@@ -4,13 +4,13 @@
 @section('content')
     <div class="container">
         <div class="row">
-            @include('admins/breadcrumb')
+            @include('users/breadcrumb')
             @include('shared/alert')
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header bg-dark text-white">User Edit</div>
+                    <div class="card-header bg-success text-white">Change Profile</div>
                     <div class="card-body">
-                        <form action="{{ route('admin.update') }}" method="POST">
+                        <form action="{{ route('user.profile.edit') }}" method="POST">
                             {{ csrf_field() }}
                             <div class="form-row">
                                 <fieldset class="form-group">
@@ -74,51 +74,13 @@
                             </div>
                             <hr>
                             <div class="form-row">
-                                <fieldset>
+                                <fieldset class="col-md-4 offset-md-8">
                                     <b>Date of birth: </b>
                                     <input type="date" class="form-control" name="birthday" value="{{$user->birthday}}">
                                 </fieldset>
                             </div>
                             <hr>
-                            <div class="form-row">
-                                <fieldset class="form-group col-md-6">
-                                    <b>Member of Department:</b>
-                                    <select class="form-control{{ $errors->has('member') ? ' is-invalid' : '' }}" name="member" id="member" required>
-                                        <option value="0">None</option>
-                                        @foreach($departments as $department)
-                                            @if($departmentId && $department->id == $departmentId)
-                                                <option selected value="{{ $department->id }}">{{ $department->name }}</option>
-                                            @else
-                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
-                                            @endif
-                                        @endforeach
-                                        @if ($errors->has('member'))
-                                            <div class="invalid-feedback">
-                                                {{ $errors->first('member') }}
-                                            </div>
-                                        @endif
-                                    </select>
-                                </fieldset>
-                                <fieldset class="form-group col-md-6">
-                                    <b>Manager of Department:</b>
-                                    <select class="form-control{{ $errors->has('manager') ? ' is-invalid' : '' }}" name="manager" id="manager" required>
-                                        <option value="0">None</option>
-                                        @foreach($departments as $department)
-                                            @if($managerDepartmentId && $department->id == $managerDepartmentId)
-                                                <option selected value="{{ $department->id }}">{{ $department->name }}</option>
-                                            @else
-                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
-                                            @endif
-                                        @endforeach
-                                        @if ($errors->has('manager'))
-                                            <div class="invalid-feedback">
-                                                {{ $errors->first('manager') }}
-                                            </div>
-                                        @endif
-                                    </select>
-                                </fieldset>
-                            </div>
-                            <a class="btn btn-secondary" href="{{ route('admins') }}">Cancel</a>
+                            <a class="btn btn-secondary" href="{{ route('dashboard') }}">Cancel</a>
                             <button type="submit" class="btn btn-success" id="editUser">Save change</button>
                         </form>
                     </div>

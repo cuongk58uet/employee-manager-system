@@ -23,8 +23,8 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin', ['except' => ['showResetForm', 'reset']]);
-        $this->middleware('passwordReset', ['only' => ['showResetForm', 'reset']]);
+        $this->middleware('admin');
+        // $this->middleware('firstLoginOrResetPassword');
     }
 
     /**
@@ -73,9 +73,9 @@ class AdminController extends Controller
             Mail::to($request->email)->send(new RegisterAccountSusscess($username, $password));
             $user->save();
         } catch (\Swift_TransportException $e) {
-            return redirect('/users/create')->with('danger', 'Error occurred. Please try again');
+            return redirect('/admin/create')->with('danger', 'Error occurred. Please try again');
         }
-        return redirect('/users')->with('success', 'User has been created successfully');
+        return redirect('/admin')->with('success', 'User has been created successfully');
     }
 
     protected function generatePassword()
@@ -182,7 +182,7 @@ class AdminController extends Controller
         $user->birthday = $request->birthday;
 
         if ($user->save()) {
-            return redirect('/users')->with('success', 'User has been updated');
+            return redirect('admin')->with('success', 'User has been updated');
         }
         return back()->with('danger', 'Error occurred. Please try again');
     }
@@ -280,7 +280,7 @@ class AdminController extends Controller
         }
 
         if ($user->delete()) {
-            return redirect('/users')->with('success', 'User has been deleted.');
+            return redirect('/admin')->with('success', 'User has been deleted.');
         }
 
         return back()->with('danger', 'Error occurred. Please try again');
@@ -312,7 +312,7 @@ class AdminController extends Controller
         if($current_user->save()) {
             return redirect('/dashboard')->with('success', 'Your password has been updated');
         }
-        return redirect('/users/reset/password')->with('danger', 'Error occurred. Please try again');
+        return back()->with('danger', 'Error occurred. Please try again');
     }
 
     public function showResetList()

@@ -6,7 +6,7 @@
         <div class="row">
             @include('admins/breadcrumb')
             @include('shared/alert')
-            <form action="{{route('user.reset')}}" method="POST" id="formReset">
+            <form action="{{route('admin.reset')}}" method="POST" id="formReset">
                 {{ csrf_field() }}
                 <input type="hidden" name="list" id="listId">
                 <button type="submit" id="resetButton" class="btn btn-success reset"><i class="fa fa-refresh" aria-hidden="true"></i> Reset Password</button>
@@ -27,13 +27,13 @@
                     @foreach($users as $user)
                         <tr>
                             <td><input type="checkbox" name="userId" value="{{$user->id}}"></td>
-                            <td><a href="{{ route('user.show', ['id' => $user->id]) }}">{{ $user->username }}</a></td>
+                            <td><a href="{{ route('admin.show', ['id' => $user->id]) }}">{{ $user->username }}</a></td>
                             <td>{{ $user->email }}</td>
                             <td class="text-center">{{ date('h:i a | d/m/Y', strtotime($user->created_at)) }}</td>
                             <td class="text-center">{{date('h:i a | d/m/Y', strtotime($user->updated_at)) }}</td>
                             <td>
                                 <div class="action">
-                                   <form action="{{route('user.reset')}}" method="POST" id="formReset">
+                                   <form action="{{route('admin.reset')}}" method="POST" id="formReset">
                                        {{ csrf_field() }}
                                        <input type="hidden" name="list" value="{{$user->id}}">
                                        <button type="submit" class="btn btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i> Reset Password</button>
