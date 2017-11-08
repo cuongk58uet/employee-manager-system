@@ -7,10 +7,10 @@
         <div class="col-md-6 offset-md-3">
             @include('shared.alert')
             <div class="card">
-                <div class="card-header bg-dark text-white">ADMIN Reset Password</div>
+                <div class="card-header bg-dark text-white">USER Reset Password</div>
 
                 <div class="card-body">
-                    <form id="form-reset" method="POST" action="{{ route('password.reset.first') }}">
+                    <form id="form-reset" method="POST" action="{{ route('user.reset.password') }}">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="password">Password</label>

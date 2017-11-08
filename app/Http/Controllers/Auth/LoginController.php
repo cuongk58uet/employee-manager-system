@@ -63,4 +63,27 @@ class LoginController extends Controller
 
         return redirect('/');
     }
+
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        if ($this->guard()->user()->first_login || $this->guard()->user()->is_reset_password) {
+            if ($this->guard()->user()->is_admin) {
+                return redirect('/admin/reset/password')->with('primary', 'Please change your password first');
+            } else {
+                return redirect('/user/reset')->with('primary', 'Please change your password first');
+            }
+        }
+
+        return redirect('/dashboard');
+    }
 }

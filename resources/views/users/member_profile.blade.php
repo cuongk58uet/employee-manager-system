@@ -1,14 +1,14 @@
 @extends('layouts.app')
-@section('title', 'Employee Detail')
+@section('title', 'My Profile')
 
 @section('content')
     <div class="container">
         <div class="row">
-            @include('admins/breadcrumb')
+            @include('users/breadcrumb')
             @include('shared/alert')
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header bg-dark text-white">User Detail</div>
+                    <div class="card-header bg-dark text-white">Member Profile</div>
                     <div class="card-body">
                         <div class="form-row">
                             <fieldset class="form-group col-md-6">
@@ -48,30 +48,7 @@
                         <hr>
                         <div class="form-row">
                             <fieldset class="form-group col-md-6">
-                                <b>Member of Department</b>
-                                @if($memberOf)
-                                    <input type="text" class="form-control" id="manager" value="{{ $memberOf }}" readonly>
-                                @else
-                                    <input type="text" class="form-control" id="manager" value="None" readonly>
-                                @endif
-                            </fieldset>
-
-                            <fieldset class="form-group col-md-6">
-                                <b>Manager of Department</b>
-                                @if($managerOf)
-                                    <input type="text" class="form-control" id="manager" value="{{ $managerOf }}" readonly>
-                                @else
-                                    <input type="text" class="form-control" id="manager" value="None" readonly>
-                                @endif
-                            </fieldset>
-                        </div>
-                        <hr>
-                        <div class="form-row">
-                            <fieldset class="form-group col-md-6"></fieldset>
-                            <fieldset class="form-group col-md-6">
-                                <a class="btn btn-secondary" href="{{ route('admins') }}">Back</a>
-                                <a class="btn btn-primary" href="{{route('admin.edit', ['id' => $user->id])}}">Edit</a>
-                                <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteUser" id="deleteUser">Delete</a>
+                                <a class="btn btn-secondary" href="{{ route('user.department') }}">Back</a>
                             </fieldset>
                         </div>
                     </div>
@@ -79,5 +56,4 @@
             </div>
         </div>
     </div>
-    @include('admins.delete_modal')
 @endsection

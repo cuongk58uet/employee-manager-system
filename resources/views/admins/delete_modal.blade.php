@@ -10,7 +10,7 @@
             <div class="modal-body">Click "Delete" below if you are ready delete this user.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <form method="POST" action="{{ route('user.delete') }}">
+                <form method="POST" action="{{ route('admin.delete') }}">
                     <input type="hidden" name="_token" value="{{csrf_token() }}">
                     <input type="hidden" name="id" id="id">
                     <div>

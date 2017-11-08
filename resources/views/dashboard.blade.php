@@ -5,6 +5,7 @@
     <div class="container">
         <div class="row">
             @include('shared/alert')
+            @include('shared/information')
         </div>
     </div>
 @endsection

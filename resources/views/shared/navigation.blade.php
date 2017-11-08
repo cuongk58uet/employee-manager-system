@@ -11,15 +11,16 @@
                     <span class="nav-link-text">Dashboard</span>
                 </a>
             </li>
+        @if (Auth::user()->is_admin)
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
                     <i class="fa fa-user" aria-hidden="true"></i>
                     <span class="nav-link-text">Employees</span>
                 </a>
                 <ul class="sidenav-second-level collapse" id="collapseComponents">
-                    <li><a href="{{ route('users') }}"><i class="fa fa-fw fa-wrench"></i> Management</a></li>
-                    <li><a href="{{ route('user.create') }}"><i class="fa fa-user-plus" aria-hidden="true"></i> Create Account</a></li>
-                    <li><a href="{{ route('user.reset') }}"><i class="fa fa-refresh" aria-hidden="true"></i> Reset Password</a></li>
+                    <li><a href="{{ route('admins') }}"><i class="fa fa-fw fa-wrench"></i> Management</a></li>
+                    <li><a href="{{ route('admin.create') }}"><i class="fa fa-user-plus" aria-hidden="true"></i> Create Account</a></li>
+                    <li><a href="{{ route('admin.reset') }}"><i class="fa fa-refresh" aria-hidden="true"></i> Reset Password</a></li>
                 </ul>
             </li>
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
@@ -32,20 +33,14 @@
                     <li><a href="{{ route('department.create') }}"><i class="fa fa-plus" aria-hidden="true"></i>  Create</a></li>
                 </ul>
             </li>
-            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
-                <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
-                    <i class="fa fa-fw fa-sitemap"></i>
-                    <span class="nav-link-text">Menu Levels</span>
+        @else
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                <a class="nav-link" href="{{ route('user.department') }}">
+                    <i class="fa fa-archive" aria-hidden="true"></i>
+                    <span class="nav-link-text">My Department</span>
                 </a>
-                <ul class="sidenav-second-level collapse" id="collapseMulti">
-                    <li><a href="#">Second Level Item</a></li>
-                    <li><a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
-                        <ul class="sidenav-third-level collapse" id="collapseMulti2">
-                            <li><a href="#">Third Level Item</a></li>
-                        </ul>
-                    </li>
-                </ul>
             </li>
+        @endif
         </ul>
         <ul class="navbar-nav sidenav-toggler">
             <li class="nav-item">
@@ -55,16 +50,57 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-            @guest
-                <li class="nav-item"></li>
+        @auth
+            @if (Auth::user()->is_admin)
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle mr-lg-2" href="#" data-toggle="dropdown">
+                        <img src="{{asset('avatar.jpg')}}" class="rounded-circle" alt="" width="20" height="20">
+                    </a>
+                    <div class="dropdown-menu">
+                        <h6 class="dropdown-header">Logged in as: </h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('admin.show', ['id' => Auth::user()->id]) }}">
+                          <strong>{{Auth::user()->firstname . ' ' . Auth::user()->lastname}}</strong>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('admin.edit', ['id' => Auth::user()->id]) }}">Change Profile
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('password.reset.first') }}">Change Password
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-power-off" aria-hidden="true"></i> Logout</a>
+                    </div>
+                </li>
             @else
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.show', ['id' => Auth::user()->id]) }}">{{Auth::user()->firstname . ' ' . Auth::user()->lastname}}</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle mr-lg-2" href="#" data-toggle="dropdown" aria-haspopup="true">
+                        <img src="{{asset('avatar.jpg')}}" class="rounded-circle" alt="" width="20" height="20">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+                        <h6 class="dropdown-header">Logged in as: </h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('user.profile') }}">
+                          <strong>{{Auth::user()->firstname . ' ' . Auth::user()->lastname}}</strong>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ route('user.profile.edit') }}">Change Profile
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-power-off" aria-hidden="true"></i> Logout</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-power-off" aria-hidden="true"></i></a>
-                </li>
-            @endguest
+            @endif
+        @endauth
+        <li class="nav-item">
+            <a class="nav-link">
+                <i class="fa fa-circle-o" aria-hidden="true"></i>
+                <i class="fa fa-circle-o" aria-hidden="true"></i>
+                <i class="fa fa-circle-o" aria-hidden="true"></i>
+                <i class="fa fa-circle-o" aria-hidden="true"></i>
+                <i class="fa fa-circle-o" aria-hidden="true"></i>
+            </a>
+        </li>
         </ul>
     </div>
 </nav>
