@@ -24,7 +24,7 @@ class AdminController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('admin');
-        // $this->middleware('firstLoginOrResetPassword');
+        $this->middleware('firstLoginOrResetPassword', ['except' => ['showResetForm', 'reset']]);
     }
 
     /**

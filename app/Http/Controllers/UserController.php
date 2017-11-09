@@ -23,7 +23,7 @@ class UserController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('protectResetPassword', ['only' => ['showResetForm', 'reset']]);
-        // $this->middleware('firstLoginOrResetPassword');
+        $this->middleware('firstLoginOrResetPassword', ['except' => ['showResetForm', 'reset']]);
     }
 
     /**

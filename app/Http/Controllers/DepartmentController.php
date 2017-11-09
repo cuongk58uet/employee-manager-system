@@ -16,6 +16,7 @@ class DepartmentController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('admin');
+        $this->middleware('firstLoginOrResetPassword');
     }
 
     /**
