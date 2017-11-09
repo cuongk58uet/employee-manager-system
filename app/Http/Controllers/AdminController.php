@@ -153,7 +153,6 @@ class AdminController extends Controller
      */
     public function update(Request $request)
     {
-        // return $request->all();
         $validator = Validator::make($request->all(), [
             'email' => Rule::unique('users')->ignore($request->id),
             'firstname' => 'required|string|max:255',
@@ -163,6 +162,7 @@ class AdminController extends Controller
             'birthday' => 'required|date',
             'member' => 'required|integer',
             'manager' =>'required|integer',
+            'avatar' => 'image'
         ]);
 
         if ($validator->fails()) {
@@ -180,9 +180,11 @@ class AdminController extends Controller
         $user->gender = $request->gender;
         $user->address = $request->address;
         $user->birthday = $request->birthday;
+        $avatar = $this->uploadImage($request);
+        $user->avatar = $avatar ? 'images/' . $avatar : $user->avatar;
 
         if ($user->save()) {
-            return redirect('admin')->with('success', 'User has been updated');
+            return redirect('admin/show/'. $user->id)->with('success', 'User has been updated');
         }
         return back()->with('danger', 'Error occurred. Please try again');
     }
@@ -342,5 +344,21 @@ class AdminController extends Controller
             }
         }
         return back()->with('success', 'Password has been reset');
+    }
+
+    public function uploadImage(Request $request)
+    {
+        if ($request->hasFile('avatar')) {
+            if ($request->file('avatar')->isValid()) {
+                $extension = $request->file('avatar')->getClientOriginalExtension();
+                $fileName = time() . '_' . rand(0, 99999) . '.' . $extension;
+                $uploadPath = public_path('/images');
+                $request->file('avatar')->move($uploadPath, $fileName);
+                return $fileName;
+            } else {
+                return '';
+            }
+            return '';
+        }
     }
 }

@@ -78,9 +78,9 @@ class LoginController extends Controller
 
         if ($this->guard()->user()->first_login || $this->guard()->user()->is_reset_password) {
             if ($this->guard()->user()->is_admin) {
-                return redirect('/admin/reset/password')->with('primary', 'ADMIN: Please change your password first');
+                return redirect('/admin/reset/password')->with('primary', 'Please change your password first');
             } else {
-                return redirect('/user/reset')->with('primary', 'USER: Please change your password first');
+                return redirect('/user/reset')->with('primary', 'Please change your password first');
             }
         }
 

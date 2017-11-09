@@ -68,7 +68,7 @@ class DepartmentController extends Controller
         $manager = '';
         $manager = $department->getManager()->first();
         $members = '';
-        $members = $department->getMembers;
+        $members = $department->getMembers()->paginate(2);
 
         return view('departments.show', compact('department', 'manager', 'members'));
     }

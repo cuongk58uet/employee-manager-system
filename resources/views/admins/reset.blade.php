@@ -40,7 +40,7 @@
 
                         <div class="form-group">
                             <div>
-                                <button type="submit" class="btn btn-block btn-success" id="submit">Reset Password
+                                <button type="submit" class="btn btn-block btn-success" id="submit">Save change
                                 </button>
                             </div>
                         </div>

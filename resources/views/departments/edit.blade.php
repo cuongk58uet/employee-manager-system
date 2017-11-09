@@ -11,9 +11,9 @@
               <li class="breadcrumb-item active">Departments</li>
             </ol>
             @include('shared/alert')
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header bg-dark text-white">Edit Department</div>
+                    <div class="card-header bg-success text-white">Edit Department</div>
                     <div class="card-body">
                         <form action="{{ route('department.update') }}" method="POST">
                             {{ csrf_field() }}
@@ -27,7 +27,7 @@
                                 <textarea class="form-control" name="description" id="description" rows="3">{{ $department->description }}</textarea>
                             </fieldset>
                             <a class="btn btn-dark" href="{{ route('departments') }}">Cancel</a>
-                            <button class="btn btn-primary" type="submit">Save change</button>
+                            <button class="btn btn-success" type="submit">Save change</button>
                         </form>
                     </div>
                 </div>
