@@ -54,7 +54,7 @@
             @if (Auth::user()->is_admin)
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle mr-lg-2" href="#" data-toggle="dropdown">
-                        <img src="{{asset('avatar.jpg')}}" class="rounded-circle" alt="" width="20" height="20">
+                        <img src="{{asset(Auth::user()->avatar)}}" class="rounded-circle" alt="" width="20" height="20">
                     </a>
                     <div class="dropdown-menu">
                         <h6 class="dropdown-header">Logged in as: </h6>
@@ -75,7 +75,7 @@
             @else
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle mr-lg-2" href="#" data-toggle="dropdown" aria-haspopup="true">
-                        <img src="{{asset('avatar.jpg')}}" class="rounded-circle" alt="" width="20" height="20">
+                        <img src="{{asset(Auth::user()->avatar)}}" class="rounded-circle" alt="" width="20" height="20">
                     </a>
                     <div class="dropdown-menu" aria-labelledby="messagesDropdown">
                         <h6 class="dropdown-header">Logged in as: </h6>

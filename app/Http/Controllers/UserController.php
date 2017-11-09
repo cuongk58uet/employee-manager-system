@@ -79,6 +79,7 @@ class UserController extends Controller
             'address' => 'required|string|max:255',
             'gender' => 'required|string',
             'birthday' => 'required|date',
+            'avatar' => 'image'
         ]);
 
         if ($validator->fails()) {
@@ -93,7 +94,7 @@ class UserController extends Controller
         $user->birthday = $request->birthday;
 
         if ($user->save()) {
-            return redirect('/dashboard')->with('success', 'Profile has been updated');
+            return redirect('/user/profile')->with('success', 'Profile has been updated');
         }
 
         return back()->with('danger', 'Error occurred. Please try again');

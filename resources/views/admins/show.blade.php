@@ -6,21 +6,40 @@
         <div class="row">
             @include('admins/breadcrumb')
             @include('shared/alert')
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header bg-dark text-white">User Detail</div>
+                    <div class="card-header bg-info text-white">Employee Detail</div>
                     <div class="card-body">
-                        <div class="form-row">
-                            <fieldset class="form-group col-md-6">
-                                <b>User Name</b>
-                                <input type="text" class="form-control" id="username" value="{{ $user->username }}" readonly>
-                            </fieldset>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td rowspan="3" class="avatar_area">
+                                        @if($user->avatar)
+                                            <img src="{{asset($user->avatar)}}" alt="" class="rounded-circle avatar">
+                                        @else
+                                            <img src="{{asset('images/avatar.jpg')}}" alt="" class="rounded-circle avatar">
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <fieldset class="form-group">
+                                            <b>User Name</b>
+                                            <input type="text" class="form-control" id="username" value="{{ $user->username }}" readonly>
+                                        </fieldset>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <fieldset class="form-group">
+                                            <b>Email</b>
+                                            <input type="text" class="form-control" id="email" value="{{ $user->email }}" readonly>
+                                        </fieldset>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <fieldset class="form-group col-md-6">
-                                <b>Email</b>
-                                <input type="text" class="form-control" id="email" value="{{ $user->email }}" readonly>
-                            </fieldset>
-                        </div>
                         <hr>
                         <div class="form-row">
                             <fieldset class="form-group col-md-6">
