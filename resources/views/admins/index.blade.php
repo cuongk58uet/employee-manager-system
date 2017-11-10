@@ -7,6 +7,11 @@
             @include('admins/breadcrumb')
             @include('shared/alert')
             <a href="{{ route('admin.create') }}" class="btn btn-success create"><i class="fa fa-user-plus" aria-hidden="true"></i> Create User</a>
+            <div class="input-group col-md-6">
+                <input type="text" class="form-control" id="search_box" name="search" placeholder="Search...">
+                <div class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></div>
+            </div>
+            <div class="search_response col-md-12"></div>
             <table class="table table-hover table-bordered">
                 <thead class="thead-dark">
                     <tr>

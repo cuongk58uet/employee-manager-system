@@ -39,6 +39,7 @@ Route::prefix('admin')->group(function(){
     Route::post('/reset/password', 'AdminController@reset');
     Route::get('/reset', 'AdminController@showResetList')->name('admin.reset');
     Route::post('/reset', 'AdminController@resetPasswordOfListUser');
+    Route::get('/search', 'AdminController@search');
 });
 Route::get('/mails', function() {
     return new App\Mail\ResetPasswordSuccess('cuongnm4215', 'manhcuong');
