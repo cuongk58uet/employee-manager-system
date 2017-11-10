@@ -60,3 +60,7 @@ table > thead > tr > th {
 .list-group {
     margin-bottom: 20px;
 }
+
+.export {
+    margin-bottom: 20px;
+}

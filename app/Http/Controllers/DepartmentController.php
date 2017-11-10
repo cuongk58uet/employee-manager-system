@@ -26,7 +26,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::orderBy('id', 'asc')->paginate(5);
+        $departments = Department::withTrashed()->orderBy('id', 'asc')->paginate(5);
         return view('departments.index', compact('departments'));
     }
 
@@ -64,7 +64,7 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        $department = Department::where('id', $id)->firstOrFail();
+        $department = Department::withTrashed()->findOrFail($id);
         $manager = '';
         $manager = $department->getManager()->first();
         $members = '';
@@ -81,7 +81,7 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
-        $department = Department::where('id', $id)->firstOrFail();
+        $department = Department::withTrashed()->findOrFail($id);
         return view('departments.edit', compact('department'));
     }
 
@@ -94,7 +94,7 @@ class DepartmentController extends Controller
      */
     public function update(Request $request)
     {
-        $department = Department::where('id', $request->id)->firstOrFail();
+        $department = Department::withTrashed()->findOrFail($request->id);
         $department->name = $request->name;
         $department->description = $request->description;
 
@@ -112,13 +112,18 @@ class DepartmentController extends Controller
      */
     public function destroy(Request $request)
     {
-        $department = Department::findOrFail($request->id);
+        $department = Department::withTrashed()->findOrFail($request->id);
 
         if ($department->users->first()) {
             $department->users()->detach();
         }
-        if ($department->delete()) {
+
+        if (is_null($department->deleted_at)) {
+            $department->delete();
             return redirect('/departments')->with('success', 'Department has been deleted.');
+        } else {
+            $department->forceDelete();
+            return redirect('/departments')->with('warning', 'Department has been force deleted.');
         }
 
         return redirect()->back()->with('danger', 'Error occurred. Please try again');

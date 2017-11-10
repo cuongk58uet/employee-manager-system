@@ -19,6 +19,7 @@
                         <th>Name</th>
                         <th>Created at</th>
                         <th>Updated at</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -29,6 +30,13 @@
                             <td><a href="{{ route('department.show', ['id' => $department->id]) }}">{{ $department->name }}</a></td>
                             <td class="text-center">{{ date('H:i a | d/m/Y', strtotime($department->created_at)) }}</td>
                             <td class="text-center">{{ date('H:i a | d/m/Y', strtotime($department->updated_at)) }}</td>
+                            <td>
+                                @if($department->deleted_at)
+                                <p class="text-danger">Locked</p>
+                                @else
+                                <p class="text-success">Active</p>
+                                @endif
+                            </td>
                             <td>
                                 <div class="departmentAction">
                                     <a href="{{route('department.edit', ['id' => $department->id])}}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>

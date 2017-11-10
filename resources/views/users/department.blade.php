@@ -39,7 +39,7 @@
                     </tbody>
                 </table>
                 {{ $members->links('vendor.pagination.bootstrap-4') }}
-                <a href="{{route('csv.export')}}" class="btn btn-success">Export to CSV</a>
+                <a href="{{route('csv.export')}}" class="btn btn-success export">Export to CSV</a>
             @else
                 <b class="text-warning">Division does not have member yet</b>
             @endif

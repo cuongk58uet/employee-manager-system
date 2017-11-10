@@ -34,7 +34,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id', 'desc')->paginate(5);
+        $users = User::withTrashed()->orderBy('id', 'desc')->paginate(5);
         return view('admins.index', compact('users'));
     }
 
@@ -58,19 +58,28 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'username' => 'required|string|unique:users|max:255',
-            'email' => 'required|string|email|unique:users|max:255'
+            'email' => 'required|string|email|unique:users|max:255',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'address' => 'required|string|max: 255',
+            'gender' => 'required|string',
+            'birthday' => 'required|date'
         ]);
 
         $user = new User();
         $user->username = $request->username;
         $user->email = $request->email;
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->address = $request->address;
+        $user->gender = $request->gender;
+        $user->avatar = 'images/avatar.jpg';
+        $user->birthday = $request->birthday;
 
-        $username = $request->username;
         $password = $this->generatePassword();
-
         $user->password = $this->hashPassword($password);
         try {
-            Mail::to($request->email)->send(new RegisterAccountSusscess($username, $password));
+            Mail::to($request->email)->send(new RegisterAccountSusscess($request->username, $password));
             $user->save();
         } catch (\Swift_TransportException $e) {
             return redirect('/admin/create')->with('danger', 'Error occurred. Please try again');
@@ -103,7 +112,7 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::withTrashed()->findOrFail($id);
         $memberOf = '';
         $managerOf = '';
 
@@ -125,7 +134,7 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::withTrashed()->findOrFail($id);
 
         if ($user->isMemberOfDepartment->first()) {
             $departmentId = $user->isMemberOfDepartment->first()->id;
@@ -162,14 +171,14 @@ class AdminController extends Controller
             'birthday' => 'required|date',
             'member' => 'required|integer',
             'manager' =>'required|integer',
-            'avatar' => 'image'
+            'avatar' => 'image|nullable'
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $user = User::findOrFail($request->id);
+        $user = User::withTrashed()->findOrFail($request->id);
 
         $this->updateMemberField($request, $user);
         $this->updateManagerField($request, $user);
@@ -272,7 +281,7 @@ class AdminController extends Controller
      */
     public function destroy(Request $request)
     {
-        $user = User::findOrFail($request->id);
+        $user = User::withTrashed()->findOrFail($request->id);
         if ($user->is_admin) {
             return back()->with('danger', 'Can not delete admin account');
         }
@@ -281,8 +290,12 @@ class AdminController extends Controller
             $user->departments()->detach();
         }
 
-        if ($user->delete()) {
-            return redirect('/admin')->with('success', 'User has been deleted.');
+        if (is_null($user->deleted_at)) {
+            $user->delete();
+            return redirect('/admin')->with('success', 'User has been locked.');
+        } else {
+            $user->forceDelete();
+            return redirect('/admin')->with('warning', 'User has been force deleted.');
         }
 
         return back()->with('danger', 'Error occurred. Please try again');
