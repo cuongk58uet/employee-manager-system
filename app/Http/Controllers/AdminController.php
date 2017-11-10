@@ -12,6 +12,8 @@ use Validator;
 use Illuminate\Validation\Rule;
 use App\Department;
 use App\Mail\ResetPasswordSuccess;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
 
 class AdminController extends Controller
 {
@@ -373,5 +375,35 @@ class AdminController extends Controller
             }
             return '';
         }
+    }
+
+    public function search(Request $request)
+    {
+        $users = User::where('username', 'LIKE', '%'.$request->search.'%')->get();
+        // dd($users);
+        $output = '';
+        if ($users) {
+            $output = '<table class="table table-hover table-bordered">';
+            $output .= '<thead class="bg-success text-white">'.
+                    '<tr>'.
+                    '<th>User Name</th>'.
+                    '<th>Email</th>'.
+                    '<th>Full Name</th>'.
+                    '</tr>'.
+                    '</thead>';
+            $output .= '<tbody>';
+            foreach ($users as $user) {
+                $link = '/admin/show/'. $user->id;
+                $output .= '<tr>'.
+                            '<td><a href="'. $link.  '">'. $user->username . '</a></td>'.
+                            '<td>'. $user->email . '</td>'.
+                            '<td>'. $user->firstname . ' ' .$user->lastname . '</td>'.
+                            '</tr>';
+
+            }
+            $output .= '</tbody>' . '</table>';
+        }
+
+        return Response($output);
     }
 }

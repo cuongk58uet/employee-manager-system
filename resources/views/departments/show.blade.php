@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-6 offset-md-6">
                 <b>Manager of department:</b>
                 @if ($manager)
                     <div class="list-group">
