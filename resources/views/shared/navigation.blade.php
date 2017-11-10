@@ -30,7 +30,7 @@
                 </a>
                 <ul class="sidenav-second-level collapse" id="collapseExamplePages">
                     <li><a href="{{ route('departments') }}"><i class="fa fa-fw fa-wrench"></i> Management</a></li>
-                    <li><a href="{{ route('department.create') }}"><i class="fa fa-plus" aria-hidden="true"></i>  Create</a></li>
+                    <li><a href="{{ route('department.create') }}"><i class="fa fa-plus" aria-hidden="true"></i>  Create Department</a></li>
                 </ul>
             </li>
         @else

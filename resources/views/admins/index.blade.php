@@ -14,7 +14,7 @@
                         <th>User Name</th>
                         <th>Email</th>
                         <th>Created at</th>
-                        <th>Updated at</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -25,7 +25,13 @@
                             <td><a href="{{ route('admin.show', ['id' => $user->id]) }}">{{ $user->username }}</a></td>
                             <td>{{ $user->email }}</td>
                             <td class="text-center">{{ date('h:i a | d/m/Y', strtotime($user->created_at)) }}</td>
-                            <td class="text-center">{{date('h:i a | d/m/Y', strtotime($user->updated_at)) }}</td>
+                            <td>
+                                @if($user->deleted_at)
+                                <p class="text-danger">Locked</p>
+                                @else
+                                <p class="text-success">Active</p>
+                                @endif
+                            </td>
                             <td>
                                 <div class="action">
                                     <a href="{{route('admin.edit', ['id' => $user->id])}}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>

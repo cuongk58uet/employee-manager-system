@@ -71,6 +71,7 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $user = Auth::user();
+        // dd($user);
 
         $validator = Validator::make($request->all(), [
             'email' => Rule::unique('users')->ignore($user->id),
@@ -79,7 +80,7 @@ class UserController extends Controller
             'address' => 'required|string|max:255',
             'gender' => 'required|string',
             'birthday' => 'required|date',
-            'avatar' => 'image'
+            'avatar' => 'image|nullable'
         ]);
 
         if ($validator->fails()) {
@@ -92,6 +93,8 @@ class UserController extends Controller
         $user->gender = $request->gender;
         $user->address = $request->address;
         $user->birthday = $request->birthday;
+        $avatar = $this->uploadImage($request);
+        $user->avatar = $avatar ? 'images/' . $avatar : $user->avatar;
 
         if ($user->save()) {
             return redirect('/user/profile')->with('success', 'Profile has been updated');
@@ -168,6 +171,22 @@ class UserController extends Controller
                 $sheet->fromModel($members, null, 'A1', true);
             });
         })->download('xlsx');
+    }
+
+    public function uploadImage(Request $request)
+    {
+        if ($request->hasFile('avatar')) {
+            if ($request->file('avatar')->isValid()) {
+                $extension = $request->file('avatar')->getClientOriginalExtension();
+                $fileName = time() . '_' . rand(0, 99999) . '.' . $extension;
+                $uploadPath = public_path('/images');
+                $request->file('avatar')->move($uploadPath, $fileName);
+                return $fileName;
+            } else {
+                return '';
+            }
+            return '';
+        }
     }
 
 }

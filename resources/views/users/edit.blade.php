@@ -10,7 +10,7 @@
                 <div class="card">
                     <div class="card-header bg-success text-white">Change Profile</div>
                     <div class="card-body">
-                        <form action="{{ route('user.profile.edit') }}" method="POST">
+                        <form action="{{ route('user.profile.edit') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <fieldset class="form-group">
                                 <input type="hidden" name="id" class="form-control" id="id" value="{{ $user->id }}">
@@ -27,13 +27,14 @@
                                             <fieldset class="form-group">
                                                 <label class="custom-file">
                                                     <input type="file" name="avatar" id="avatar" class="custom-file-input{{ $errors->has('avatar') ? ' is-invalid' : '' }}">
+                                                    @if ($errors->has('avatar'))
+                                                        <div>
+                                                            {{ $errors->first('avatar') }}
+                                                        </div>
+                                                    @endif
                                                     <span class="custom-file-control"></span>
                                                 </label>
-                                                @if ($errors->has('avatar'))
-                                                    <div class="invalid-feedback">
-                                                        {{ $errors->first('avatar') }}
-                                                    </div>
-                                                @endif
+
                                             </fieldset>
                                         </td>
                                     </tr>
@@ -111,7 +112,7 @@
                             <div class="form-row">
                                 <fieldset class="col-md-6 offset-md-6">
                                     <b>Date of birth: </b>
-                                    <input type="date" class="form-control" name="birthday" value="{{$user->birthday}}">
+                                    <input type="date" class="form-control" name="birthday" value="{{$user->birthday}}" required>
                                 </fieldset>
                             </div>
                             <hr>

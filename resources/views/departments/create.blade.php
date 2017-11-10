@@ -6,9 +6,9 @@
         <div class="row">
             @include('departments.breadcrumb')
             @include('shared/alert')
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header bg-dark text-white">Create Department</div>
+                    <div class="card-header bg-primary text-white">Create Department</div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('department.create') }}">
                             {{ csrf_field() }}
@@ -20,7 +20,8 @@
                                 <label for="description">Description</label>
                                 <textarea class="form-control" name="description" id="description" rows="3" required></textarea>
                             </fieldset>
-                            <button type="submit" class="btn btn-block btn-primary">Create</button>
+                            <a href="{{route('departments')}}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Create</button>
                         </form>
                     </div>
                 </div>
