@@ -1,0 +1,70 @@
+html {
+    font-family: Roboto !important;
+}
+body {
+    padding-top: 70px;
+    font-family: sans-serif !important;
+}
+
+.input-validate {
+    font-size: x-small;
+    color: red;
+    margin-top: 2px;
+    margin-left: 2px;
+}
+
+.paginate-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+}
+
+table > thead > tr > th {
+    text-align: center;
+}
+
+.create {
+    margin-bottom: 10px;
+    margin-left: 80%;
+}
+
+.reset {
+    margin-bottom: 10px;
+}
+
+.avatar {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 10px;
+}
+
+.avatar_area {
+    width: 50%;
+}
+
+.card {
+    margin-bottom: 30px;
+}
+
+.mini-avatar {
+    width: 50px;
+    height: 50px;
+}
+
+.list-group {
+    margin-bottom: 20px;
+}
+
+.export {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 10px;
+}

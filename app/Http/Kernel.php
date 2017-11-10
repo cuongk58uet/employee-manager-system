@@ -56,6 +56,9 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'firstLoginOrResetPassword' => \App\Http\Middleware\CheckFirstLoginOrResetPassword::class,
+        'protectResetPassword' => \App\Http\Middleware\ProtectResetPassword::class,
+        'admin' => \App\Http\Middleware\CheckAdminRole::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 }

@@ -4,10 +4,41 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
+
+    /** Determine department which this user is manager
+    *
+    * @return Department if exist
+    */
+    public function isManagerOfDepartment()
+    {
+        return $this->belongsToMany('App\Department')->withPivot('is_manager')->wherePivot('is_manager', true)->withTimestamps();
+    }
+
+    /** Determine department which this user is a member
+    *
+    * @return Department if exist
+    */
+    public function isMemberOfDepartment()
+    {
+        return $this->belongsToMany('App\Department')->withPivot('is_manager')->wherePivot('is_manager', false)->withTimestamps();
+    }
+
+    /** Determine all departments
+    *
+    * @return Department Collection
+    */
+    public function departments()
+    {
+        return $this->belongsToMany('App\Department')->withPivot('is_manager')->withTimestamps();
+    }
+
+
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +46,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username', 'email', 'password',
     ];
 
     /**
@@ -24,6 +55,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'pivot'
     ];
 }
